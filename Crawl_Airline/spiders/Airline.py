@@ -16,7 +16,7 @@ class Airline(Spider):
         links = response.xpath('//*[@id="specials_0_refreshspecials_0_pnlSpecials"]/div[3]/ul/li/a/@href').extract()#response.css("div.results li a::attr(href)").extract()
         from_tos = response.xpath('//*[@id="specials_0_refreshspecials_0_pnlSpecials"]/div[3]/ul/li/a/span[1]/text()').extract()#response.css("div.results span.dest::text").extract()
         prices = response.xpath('//*[@id="specials_0_refreshspecials_0_pnlSpecials"]/div[3]/ul/li/a/span/strong/text()').extract()#response.css("span.price strong::text").extract()
-        dates = response.xpath('//*[@id="specials_0_refreshspecials_0_pnlSpecials"]/div[3]/ul/li/a/span[3]/text()').extract()
+        dates = response.xpath('//*[@id="specials_0_refreshspecials_0_pnlSpecials"]/div[3]/ul/li/a/span[3]/text()').extract()#response.css("div.results span.period::text").extract()
         for item in zip(links, from_tos, prices, dates):
             data = {
                 'link' : item[0],
