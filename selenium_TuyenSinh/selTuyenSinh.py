@@ -97,6 +97,6 @@ if __name__ == '__main__':
     tuyen_sinh = SelTuyenSinh(driver)
     tuyen_sinh.hoidap()
     tuyen_sinh.cauhoithuonggap()
-    # driver.close()
-    #driver.quit()
+    driver.close()
+    driver.quit()
 
