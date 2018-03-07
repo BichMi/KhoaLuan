@@ -1,17 +1,24 @@
+# -*- coding: utf-8 -*-
 import json
 import pandas as pd
 
 list_question = []
 list_answer = []
-with open('data_full1.json', encoding='utf-8') as data_file:
+list_date = []
+with open('data.json', encoding='utf-8') as data_file:
     data = json.loads(data_file.read())
     for i in data:
-        for key, value in i.items():
-            print(key[2], ":", value)
-
-# file = 'data_full1.json'
-# dl = pd.read_json(file)
-#
-# data = dl.head()
-# # print(data.columns)
-# print(repr(data))
+        print(i.get("questions"))
+        list_question.append(i.get("questions"))
+        list_answer.append(i.get("answers"))
+        list_date.append(i.get("dates"))
+    print(len(data))
+    print(len(list_question))
+    for j in list_question:
+        print(j)
+    print(len(list_answer))
+    for j in list_answer:
+        print(j)
+    print(len(list_date))
+    for j in list_date:
+        print(j)

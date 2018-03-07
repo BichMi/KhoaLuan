@@ -49,6 +49,7 @@ class SelTuyenSinh:
 
             for question, answer, date in zip(list_questions, list_answers, list_dates):    # lưu data vào MongoDB
                 document = collection.insert([{"questions": question.text,"answers": answer ,"dates": date}])
+                #HTML inner
                 # driver = webdriver.PhantomJS()
                 # tralois = driver.find_element_by_id("cnt34506")
                 # print(tralois.get_attribute("innerHTML"))
