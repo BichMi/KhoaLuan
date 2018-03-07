@@ -49,6 +49,7 @@ class SelTuyenSinh:
 
             for question, answer, date in zip(list_questions, list_answers, list_dates):    # lưu data vào MongoDB
                 document = collection.insert([{"questions": question.text,"answers": answer ,"dates": date}])
+                #HTML inner
                 # driver = webdriver.PhantomJS()
                 # tralois = driver.find_element_by_id("cnt34506")
                 # print(tralois.get_attribute("innerHTML"))
@@ -97,6 +98,6 @@ if __name__ == '__main__':
     tuyen_sinh = SelTuyenSinh(driver)
     tuyen_sinh.hoidap()
     tuyen_sinh.cauhoithuonggap()
-    # driver.close()
-    #driver.quit()
+    driver.close()
+    driver.quit()
 
