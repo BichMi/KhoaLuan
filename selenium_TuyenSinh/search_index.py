@@ -11,7 +11,7 @@ from nltk.tokenize import RegexpTokenizer
 def extract_question():
     stop_words_tuyensinh = [u'dạ', u'cho', u'em', u'hỏi', u'ạ', u'tôi', u'cảm_ơn', u'cám_ơn', u'chị', u'anh', u'thầy_cô', u'thầy', u'cô',u'vâng', u'vậy']
     question_input = input('Nhập câu hỏi của bạn: ')
-    question_input = re.sub(r"(\s{2,})",'',question_input.lower())
+    question_input = re.sub(r"(\s{2,})",'',question_input)
     # tách từ
     text = uts.word_sent(question_input, format='text')
     # lấy từ và trả về một mảng danh sách các từ đã tách
@@ -24,7 +24,7 @@ def extract_question():
     result = ''
     for word in tokens:
         if word not in word_clear:
-            result += word + ' '
+            result += word.lower() + ' '
     result = result.strip()
     return result
 
