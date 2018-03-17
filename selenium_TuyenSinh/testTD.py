@@ -107,20 +107,20 @@ if __name__ == '__main__':
     print('print wi')
     print(type(wi))
     print(wi)
+
+    items_wi = []   #chứa các mảng có các giá trị của wi theo cột(từng tài liệu)
     shape_wi = wi.shape
     x_shape_wi = shape_wi[0]#10
     y_shape_wi = shape_wi[1]  # 4
 
     for j_wi in range(y_shape_wi):
+        item_wi = []    #chứa giá trị của tung tài liệu
         for i_wi in range(x_shape_wi):
             tmp_kq = wi[i_wi][j_wi]
-            print(tmp_kq)
-        print('************')
-
-    # for item_wi in range():
-    #     for it in range(len(wi[item_wi])):
-    #         print(wi[it:item_wi])
-    #
+            item_wi.append(tmp_kq)  #giá trịiệu theo tài liệu
+        items_wi.append(item_wi)
+    # ket qua dung de tinh
+    print(items_wi)
 
 
 
