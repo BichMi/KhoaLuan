@@ -57,7 +57,17 @@ def index_search():
         # print(results[0])
         if len(results) > 0:
             for i in results:
-                print(i)
+                print('values')
+                print(i.values())
+                print('items')
+                print(i.items())
+                print('fields')
+                print(i.fields())
+                print('itervalues')
+                print(i.itervalues())
+                print(i.docnum)
+
+
 
 if __name__ == '__main__':
     #w = extract_question()

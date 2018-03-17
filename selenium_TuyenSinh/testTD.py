@@ -2,6 +2,8 @@ import underthesea as uts
 from nltk.tokenize import RegexpTokenizer
 import re
 import nltk
+import math
+import numpy
 
 #tách từ
 def extract_question(s):
@@ -42,24 +44,68 @@ if __name__ == '__main__':
     data_out = [q_arr, d1_arr, d2_arr, d3_arr]
     kq = []     # mảng lưu các từ đã tách của tất cả các tài liệu
     for i in data_input:
-        vitri = data_input.index(i)
-        data_out[vitri] = extract_question(i)
-        for j in data_out[vitri]:
+        vi_tri = data_input.index(i)
+        data_out[vi_tri] = extract_question(i)
+        for j in data_out[vi_tri]:
             kq.append(j)
-    kq_set = set(kq)        #mảng lưu từ sau khi loại bỏ từ trùng
+    kq_set = set(kq)  #mảng lưu từ sau khi loại bỏ từ trùng
+    print('mảng lưu các từ đã tách của tất cả các tài liệu')
     print(kq)
+    print('mảng lưu từ sau khi loại bỏ từ trùng')
     print(kq_set)
     tfi = []
     words = []#lưu từ
 
     for word in kq_set:
-        words.append(word)
-        print(word)
+        tfi.append(word)
         kq_index = []
         for k in data_out:
             sl = k.count(word)
             kq_index.append(sl)
         tfi.append(kq_index)
-
-    tfi.append(words)
+    print('cấu trúc tfi bao gồm [từ,[so lượng từ trong tài liệu kể cả câu truy vấn]]')
     print(tfi)
+    # dfi : số lượng từ trong tài liệu
+    dfi = []
+    for word_count in range(0,len(tfi)):
+        if (word_count % 2 != 0):
+            sum = 0
+            for counts in range(1,len(tfi[word_count])):
+                sum += tfi[word_count][counts]
+            dfi.append(sum)
+    print('dfi: số lượng từ xuất hiện trong tài liệu')
+    print(dfi)
+    #idfi  = log(n/dfi)
+    idfi = []
+    for item_dfi in range(0, len(dfi)):
+            kq = (3.0 / dfi[item_dfi])
+            kq1 = math.log10(kq)
+            idfi.append(round(kq1,4))
+    print('idfi: Mảng chứa các phần tử đã được tính = log(n/dfi)')
+    print(idfi)
+    # wi = tfi x idfi
+    wi = []
+    tmp = []
+    tmp_wi = []
+
+    for item_tfi in range(1,len(tfi), 2):
+        tmp.append(tfi[item_tfi])
+    print(tmp)
+    print(len(tmp))
+    tmp_wi = numpy.array(tmp)
+    print(type(tmp_wi))
+    print(len(tmp_wi))
+    print(tmp_wi)
+    tm = []
+    tmp_idfi = []
+    for item_idfi in range(len(idfi)):
+        wi_kq = tmp_wi[item_idfi] * idfi[item_idfi]
+        wi.append(wi_kq)
+    for item_wi in wi:
+        for it in item_wi:
+            print(it)
+
+
+
+
+
