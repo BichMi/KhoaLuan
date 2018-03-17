@@ -100,11 +100,27 @@ if __name__ == '__main__':
     tmp_idfi = []
     for item_idfi in range(len(idfi)):
         wi_kq = tmp_wi[item_idfi] * idfi[item_idfi]
+        print('phan tu thu %d ' %item_idfi)
+        print(wi_kq)
         wi.append(wi_kq)
-    for item_wi in wi:
-        for it in item_wi:
-            print(it)
+    wi = numpy.array(wi)
+    print('print wi')
+    print(type(wi))
+    print(wi)
+    shape_wi = wi.shape
+    x_shape_wi = shape_wi[0]#10
+    y_shape_wi = shape_wi[1]  # 4
 
+    for j_wi in range(y_shape_wi):
+        for i_wi in range(x_shape_wi):
+            tmp_kq = wi[i_wi][j_wi]
+            print(tmp_kq)
+        print('************')
+
+    # for item_wi in range():
+    #     for it in range(len(wi[item_wi])):
+    #         print(wi[it:item_wi])
+    #
 
 
 
