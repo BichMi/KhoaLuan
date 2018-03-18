@@ -4,6 +4,7 @@ import re
 import nltk
 import math
 import numpy
+import selenium_TuyenSinh.search_index as s
 
 #tách từ
 def extract_question(s):
@@ -26,9 +27,37 @@ def extract_question(s):
     return result
 
 # Đếm số lượng từ xuất hiện trong văn bản
-def count_words():
+def similarity(wi, data_input):
+    ''' Tính độ tương đồng của câu'''
 
-    pass
+    if len(wi) <= 0:
+        print("Array WI NO data!")
+        return 0
+    else:
+        arr = []
+        arr_qd = []
+        cosin = []
+        for i in wi:
+            a = 0.0
+            for j in i:
+                a += math.pow(j,2)
+            arr.append(round(math.sqrt(a), 4))
+
+        for k in range(1,len(wi)):
+            sum_qd = 0.0
+            for h in range(len(wi[0])):
+                sum_qd += wi[0][h] * wi[k][h]
+            arr_qd.append(sum_qd)
+        for m in range(len(arr_qd)):
+            rs = arr_qd[m] / (arr[0] * arr[m + 1])
+            cosin.append(data_input[m + 1])
+            cosin.append(round(rs,4))
+        return cosin
+def choise_documents(cosin):
+    '''sắp xếp giảm dần lấy một nữa tài l'''
+    cosin.sort(reverse=True)
+    for i_cosin in range(int(len(cosin)/2) + 1):
+        print(cosin[i_cosin])
 
 if __name__ == '__main__':
     q = "virus máy tính"
@@ -121,6 +150,9 @@ if __name__ == '__main__':
         items_wi.append(item_wi)
     # ket qua dung de tinh
     print(items_wi)
+    cosin = similarity(items_wi, data_input)
+    print(cosin)
+    # choise_documents(cosin)
 
 
 

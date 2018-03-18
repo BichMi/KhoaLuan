@@ -42,30 +42,44 @@ def index_search():
     ix = create_in("/home/bichmi/Desktop/KhoaLuanCrawl/KhoaLuan/selenium_TuyenSinh/Data_index", schema)
     writer = ix.writer()
     for item in select_table:
-        conten = item['questions'] + ' ' + item['answers'] + ' ' + item['dates']
+        content = item['questions'] + ' ' + item['answers'] + ' ' + item['dates']
         writer.add_document(title=item['questions'], path=u"/a",
-                            content=conten)
+                            content=content)
     writer.commit()
     with ix.searcher() as searcher:
         query = QueryParser("content", ix.schema).parse(ques_of_you)
+        # allow_q = query.Term("chapter", "rendering")
+        #a = query.terms('questions')
         results = searcher.search(query)
+
+
         print(type(results))
         print(len(results))
         #đăng kí nguyện vọng 1 như thế nào ? đăng_kí nguyện_vọng 1
         #dạ cho em hỏi, em muốn đăng kí nguyện vọng 1 thì như thế nào ạ?
 
         # print(results[0])
+        print(results)
         if len(results) > 0:
-            for i in results:
-                print('values')
-                print(i.values())
-                print('items')
-                print(i.items())
-                print('fields')
-                print(i.fields())
-                print('itervalues')
-                print(i.itervalues())
-                print(i.docnum)
+            for hit in results:
+                print('************************')
+                print(hit)
+                print(hit['title'])
+                print(hit['path'])
+                print('******************')
+                # print('values')
+                # print(i.values())
+                # print('items')
+                # print(i.items())
+                # print('fields')
+                # print(i.fields())
+                # print('itervalues')
+                # print(i.itervalues())
+                # print(i.docnum)
+                # with open('hit["path"]') as fileobj:
+                #     filecontents = fileobj.read()
+                #
+                # print(hit.highlights("content", text=filecontents))
 
 
 
