@@ -1,27 +1,38 @@
 # -*- coding: utf-8 -*-
-import json
-import io
 import underthesea as uts
 from pymongo import MongoClient
 
 class DataExport:
+    """
+    Tách từ tiếng việt từ Data đã có
+    """
     def __init__(self, q, a, d):
         self.question = q
         self.answer = a
         self.date = d
 
     def get_data(self):
+        """
+        lấy data đã được làm sạch từ csdl lên
+        :return:
+        """
+        client = MongoClient()
+        db = client.DBTuyenSinh
+        col = db.AnswerQuestion
+        select_table = col.find({}, {"_id": 0, "questions": 1, "answers": 1, "dates": 1})
+        print(type(select_table))
+        for i in select_table:
+            self.question.append(i['questions'])
+            self.answer.append(i['answers'])
+            self.date.append(i['dates'])
 
-        with open('data.json', encoding='utf-8') as data_file:
-            data = json.loads(data_file.read())
-            for i in data:
-                self.question.append(i.get("questions"))
-                self.answer.append(i.get("answers"))
-                self.date.append(i.get("dates"))
-
-            return self
+        return self
 
     def segmentation(self):
+        """
+        tách từ từ cơ sở dữ liệu đã được đưa lên
+        :return:
+        """
         for i in range(len(self.question)):
             result_question = uts.word_sent(self.question[i], format='text')
             self.question[i] = result_question
@@ -31,16 +42,20 @@ class DataExport:
         for k in range(len(self.question)):
             result_date = uts.word_sent(self.date[k], format='text')
             self.date[k] = result_date
-
         return self
 
-    def export_data(self):
+    def import_data(self):
+        """
+        lưu dữ liệu  tách từ vào một csdl mới
+        :return:
+        """
         client = MongoClient('mongodb://localhost:27017/')  # kết nối DB
-        db = client.TuyenSinh  # tao ket noi tới DB
+        db = client.TuyenSinhDB  # tao ket noi tới DB
         collection = db.WordSegmentation
         print('bat dau luu du lieu vao database')
         for question, answer, date in zip(self.question, self.answer, self.date):
             document = collection.insert([{"questions": question, "answers": answer, "dates": date}])
+        client.close()
 
 
 if __name__ == '__main__':
@@ -63,7 +78,7 @@ if __name__ == '__main__':
         print(m)
     for n in b.date:
         print(n)
-    word_data.export_data()
+    word_data.import_data()
     print('Da luu du lieu vao database')
 
 
