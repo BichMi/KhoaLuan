@@ -11,28 +11,37 @@ import nltk
 from nltk.tokenize import RegexpTokenizer
 
 
-def extract_question(s):
+def word_separation(s):
     """
-    làm sạch câu truy vấn, loại bỏ stop word trong câu để tiến hành search
-    :return: câu truy vấn đã được làm sạch, type: text
+    Tách từ trong câu
+    :return: List
     """
-    stop_words_tuyensinh = [u'dạ', u'cho', u'em', u'hỏi', u'ạ', u'tôi', u'cảm_ơn', u'cám_ơn', u'chị', u'anh', u'thầy_cô', u'thầy', u'cô',u'vâng', u'vậy']
-    question_input = s
-    question_input = re.sub(r"(\s{2,})",'',question_input)
     # tách từ
-    text = uts.word_sent(question_input, format='text')
+    text = uts.word_sent(s, format='text')
     # lấy từ và trả về một mảng danh sách các từ đã tách
     tokenizer = RegexpTokenizer('\w+')
+    print("tokenizer")
+    print(tokenizer)
     tokens = tokenizer.tokenize(text)
+    print('tokens')
+    print(tokens)
+    # ['đăng_kí', 'nguyện_vọng', '1', 'như', 'thế_nào', 'Em', 'cảm_ơn', 'ạ']
+    return tokens
+
+def clearn_stop_word(tokens):
+    stop_words_tuyensinh = [u'dạ', u'cho', u'em', u'hỏi', u'ạ', u'tôi', u'cảm_ơn', u'cám_ơn', u'chị', u'anh',
+                            u'thầy_cô', u'thầy', u'cô', u'vâng', u'vậy', u'e_e', u'c', u'ii']
     # lấy các stop word của tiếng anh đã được download cmd: nltk.download('stopwords')
     stop_words = nltk.corpus.stopwords.words('english')
     # tạo ra một list bao gồm stop word của tiếng anh và một số từ tiếng việt cần loại bỏ khỏi câu hỏi
     word_clear = stop_words + stop_words_tuyensinh
     result = ''
     for word in tokens:
+        word = word.lower()
         if word not in word_clear:
-            result += word.lower() + ' '
+            result += word + ' '
     result = result.strip()
+    #đăng_kí nguyện_vọng 1 như thế_nào? em em cảm ơn
     return result
 
 def index_search(s):
@@ -42,6 +51,7 @@ def index_search(s):
     :return: list các tài liệu được tìm thấy
     """
     results_search = []
+    results_search.append(s)
     client = MongoClient('mongodb://localhost:27017/') #kết nối MongoDB
     db = client.TuyenSinhDB #ket noi database
     collection = db.WordSegmentation  #ket noi collection của Database
@@ -58,7 +68,6 @@ def index_search(s):
     with ix.searcher() as searcher:
         query = QueryParser("title", ix.schema).parse(s)
         results = searcher.search(query)
-        print(len(results))
         # import pdb
         # pdb.set_trace()
         if len(results) <= 0:
@@ -69,10 +78,15 @@ def index_search(s):
                 results_search.append(hit['title'])
             return results_search
 
-if __name__ == '__main__':
+def search_index_main():
     question_input = input('Nhập câu hỏi của bạn: ')
-    s = extract_question(question_input)
-    print(s)
+    question_input = re.sub(r"(\s{2,})", '', question_input)
+    tokens = word_separation(question_input)
+    s = clearn_stop_word(tokens)
     results_search_main = index_search(s)
-    print(results_search_main)
+    return results_search_main
 
+
+
+if __name__ == '__main__':
+    search_index_main()

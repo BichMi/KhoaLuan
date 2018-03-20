@@ -15,7 +15,11 @@ def extract_question(s):
     text = uts.word_sent(question_input, format='text')
     # lấy từ và trả về một mảng danh sách các từ đã tách
     tokenizer = RegexpTokenizer('\w+')
+    print('tokenizer')
+    print(tokenizer)
     tokens = tokenizer.tokenize(text)
+    print('tokens')
+    print(tokens)
     # lấy các stop word của tiếng anh đã được download cmd: nltk.download('stopwords')
     stop_words = nltk.corpus.stopwords.words('english')
     # tạo ra một list bao gồm stop word của tiếng anh và một số từ tiếng việt cần loại bỏ khỏi câu hỏi
@@ -78,9 +82,9 @@ if __name__ == '__main__':
         for j in data_out[vi_tri]:
             kq.append(j)
     kq_set = set(kq)  #mảng lưu từ sau khi loại bỏ từ trùng
-    print('mảng lưu các từ đã tách của tất cả các tài liệu')
+    print('mảng lưu các từ đã tách của tất cả các tài liệu kq')
     print(kq)
-    print('mảng lưu từ sau khi loại bỏ từ trùng')
+    print('mảng lưu từ sau khi loại bỏ từ trùng (set kq)')
     print(kq_set)
     tfi = []
     words = []#lưu từ
