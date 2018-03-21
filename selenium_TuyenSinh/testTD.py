@@ -86,9 +86,10 @@ if __name__ == '__main__':
     print(kq)
     print('mảng lưu từ sau khi loại bỏ từ trùng (set kq)')
     print(kq_set)
+    print('data out *************************')
+    print(data_out)
+    print('end data out **********************')
     tfi = []
-    words = []#lưu từ
-
     for word in kq_set:
         tfi.append(word)
         kq_index = []
@@ -103,17 +104,18 @@ if __name__ == '__main__':
     for word_count in range(0,len(tfi)):
         if (word_count % 2 != 0):
             sum = 0
-            for counts in range(1,len(tfi[word_count])):
-                sum += tfi[word_count][counts]
+            for counts in range(1, len(tfi[word_count])):
+                if tfi[word_count][counts] > 0:
+                    sum += 1
             dfi.append(sum)
     print('dfi: số lượng từ xuất hiện trong tài liệu')
     print(dfi)
     #idfi  = log(n/dfi)
     idfi = []
     for item_dfi in range(0, len(dfi)):
-            kq = (3.0 / dfi[item_dfi])
-            kq1 = math.log10(kq)
-            idfi.append(round(kq1,4))
+        kq = (3.0 / dfi[item_dfi])
+        kq1 = math.log10(kq)
+        idfi.append(round(kq1,4))
     print('idfi: Mảng chứa các phần tử đã được tính = log(n/dfi)')
     print(idfi)
     # wi = tfi x idfi

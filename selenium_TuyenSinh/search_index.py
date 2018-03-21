@@ -20,11 +20,7 @@ def word_separation(s):
     text = uts.word_sent(s, format='text')
     # lấy từ và trả về một mảng danh sách các từ đã tách
     tokenizer = RegexpTokenizer('\w+')
-    print("tokenizer")
-    print(tokenizer)
     tokens = tokenizer.tokenize(text)
-    print('tokens')
-    print(tokens)
     # ['đăng_kí', 'nguyện_vọng', '1', 'như', 'thế_nào', 'Em', 'cảm_ơn', 'ạ']
     return tokens
 
